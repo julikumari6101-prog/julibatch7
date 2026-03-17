@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — STRKR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#0f0f0f;--paper:#f7f5f0;--cream:#ede9e0;--red:#e63329;--blue:#1a6bff;--muted:#888;--border:#d8d4cc;--white:#fff;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--paper);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:400;overflow-x:hidden;}
+
+    /* TICKER */
+    .ticker{background:var(--ink);color:var(--paper);padding:.4rem 0;overflow:hidden;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;}
+    .ticker-track{display:flex;gap:4rem;width:max-content;animation:scrollX 28s linear infinite;}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:2px solid var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:62px;}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.1em;color:var(--ink);text-decoration:none;}
+    .nav-logo span{color:var(--red);}
+    .nav-links{display:flex;gap:0;list-style:none;}
+    .nav-links a{display:block;padding:0 1.2rem;height:62px;line-height:62px;text-decoration:none;color:var(--ink);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-left:1px solid var(--border);transition:background .15s,color .15s;}
+    .nav-links a:hover,.nav-links a.active{background:var(--ink);color:var(--paper);}
+    .shop-btn{background:var(--red);color:#fff;text-decoration:none;height:62px;padding:0 1.5rem;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-left:2px solid var(--ink);display:flex;align-items:center;transition:background .15s;}
+    .shop-btn:hover{background:#c4291f;}
+
+    /* PAGE HERO */
+    .page-hero{border-bottom:2px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;}
+    .hero-text{padding:4rem 3rem;border-right:2px solid var(--ink);}
+    .hero-label{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;background:var(--ink);color:var(--paper);display:inline-block;padding:.3rem .8rem;margin-bottom:1.5rem;}
+    .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,8vw,8rem);line-height:.88;letter-spacing:.02em;}
+    .hero-h1 span{color:var(--red);}
+    .hero-sub{font-size:.95rem;line-height:1.75;color:#555;margin-top:1.5rem;max-width:380px;}
+    .hero-right{display:grid;grid-template-columns:1fr 1fr;}
+    .contact-stat{padding:2.5rem 2rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.6rem;transition:background .15s;}
+    .contact-stat:hover{background:var(--cream);}
+    .cs-ico{font-size:2rem;}
+    .cs-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+    .cs-val{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.04em;}
+    .cs-sub{font-size:.78rem;color:var(--muted);}
+
+    /* MAIN GRID */
+    .contact-main{display:grid;grid-template-columns:1fr 1fr;border-bottom:2px solid var(--ink);}
+
+    /* FORM */
+    .form-side{padding:3.5rem 3rem;border-right:2px solid var(--ink);}
+    .form-head{margin-bottom:2.5rem;}
+    .form-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.03em;line-height:.95;}
+    .form-title span{color:var(--red);}
+    .form-desc{font-size:.88rem;color:var(--muted);line-height:1.6;margin-top:.7rem;}
+    .f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+    .f-group{margin-bottom:1rem;}
+    .f-label{display:block;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;}
+    .f-ctrl{width:100%;background:var(--white);border:2px solid var(--border);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:400;padding:.8rem 1rem;outline:none;transition:border-color .15s;}
+    .f-ctrl:focus{border-color:var(--ink);}
+    .f-ctrl.err{border-color:var(--red);}
+    .f-ctrl::placeholder{color:#bbb;}
+    textarea.f-ctrl{min-height:130px;resize:vertical;}
+    select.f-ctrl{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+    .err-msg{color:var(--red);font-size:.7rem;margin-top:.25rem;display:none;}
+    .err-msg.show{display:block;}
+    .char-count{text-align:right;font-size:.68rem;color:var(--muted);margin-top:.25rem;}
+    .check-row{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:1rem;}
+    .check-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);margin-top:2px;flex-shrink:0;}
+    .check-row label{font-size:.82rem;color:var(--muted);line-height:1.5;cursor:pointer;}
+    .check-row label a{color:var(--red);text-decoration:none;}
+    .submit-btn{width:100%;background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:1rem 2rem;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .15s;margin-top:.5rem;}
+    .submit-btn:hover{background:var(--red);border-color:var(--red);}
+    .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+    /* SUCCESS */
+    .form-success{display:none;text-align:center;padding:4rem 2rem;border:2px solid var(--ink);}
+    .form-success.show{display:block;}
+    .success-ico{font-size:4rem;display:block;margin-bottom:1.2rem;}
+    .success-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--red);letter-spacing:.04em;}
+    .success-txt{font-size:.9rem;color:var(--muted);line-height:1.7;margin-top:.8rem;}
+    .reset-btn{background:var(--ink);color:var(--paper);border:none;padding:.8rem 2rem;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;margin-top:1.5rem;transition:background .15s;}
+    .reset-btn:hover{background:var(--red);}
+
+    /* INFO SIDE */
+    .info-side{padding:3.5rem 3rem;display:flex;flex-direction:column;gap:0;}
+    .info-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.03em;line-height:.95;margin-bottom:2rem;}
+    .info-title span{color:var(--red);}
+    .c-detail{display:flex;gap:1rem;padding:1.2rem 0;border-bottom:1px solid var(--border);align-items:flex-start;transition:background .15s;margin:0 -3rem;padding-left:3rem;padding-right:3rem;}
+    .c-detail:hover{background:var(--cream);}
+    .c-ico{width:44px;height:44px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .c-body{}
+    .c-lbl{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem;}
+    .c-val{font-weight:600;font-size:.92rem;margin-bottom:.1rem;}
+    .c-sub{font-size:.78rem;color:var(--muted);}
+    .divider{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+    .hours-title{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+    .h-row{display:flex;justify-content:space-between;font-size:.86rem;padding:.45rem 0;border-bottom:1px dashed var(--border);}
+    .h-row:last-child{border-bottom:none;}
+    .h-row.today{color:var(--red);font-weight:600;}
+    .social-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.5rem;}
+    .soc-link{text-decoration:none;color:var(--muted);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .9rem;border:1px solid var(--border);transition:all .15s;display:flex;align-items:center;gap:.4rem;}
+    .soc-link:hover{border-color:var(--ink);color:var(--ink);}
+
+    /* MAP */
+    .map-section{border-bottom:2px solid var(--ink);}
+    .map-head{padding:1.5rem 2.5rem;border-bottom:2px solid var(--ink);display:flex;align-items:center;justify-content:space-between;}
+    .map-title{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.04em;}
+    .map-title span{color:var(--red);}
+    .map-body{background:var(--cream);min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;position:relative;overflow:hidden;}
+    .map-body::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0,transparent,transparent 39px,var(--border) 39px,var(--border) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,var(--border) 39px,var(--border) 40px);opacity:.4;}
+    .map-pin{font-size:3rem;z-index:1;}
+    .map-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;z-index:1;}
+    .map-addr{font-size:.85rem;color:var(--muted);z-index:1;}
+    .map-dir{background:var(--ink);color:var(--paper);text-decoration:none;padding:.7rem 1.8rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;z-index:1;transition:background .15s;}
+    .map-dir:hover{background:var(--red);}
+
+    /* FAQ */
+    .faq-section{border-bottom:2px solid var(--ink);}
+    .faq-head{padding:1.5rem 2.5rem;border-bottom:2px solid var(--ink);}
+    .faq-title{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.04em;}
+    .faq-title span{color:var(--red);}
+    .faq-wrap{max-width:800px;margin:0 auto;padding:0 2.5rem;}
+    .faq-item{border-bottom:1px solid var(--border);}
+    .faq-q{padding:1.2rem 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:.95rem;font-weight:500;gap:1rem;user-select:none;transition:color .15s;}
+    .faq-q:hover{color:var(--red);}
+    .faq-toggle{font-size:1.5rem;color:var(--red);flex-shrink:0;transition:transform .25s;font-weight:300;}
+    .faq-item.open .faq-toggle{transform:rotate(45deg);}
+    .faq-a{font-size:.87rem;color:var(--muted);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;}
+    .faq-item.open .faq-a{max-height:200px;padding-bottom:1.2rem;}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--paper);padding:.75rem 2rem;font-size:.8rem;letter-spacing:.08em;z-index:400;transition:transform .3s;border-left:4px solid var(--red);}
+    .toast.show{transform:translateX(-50%) translateY(0);}
+
+    /* FOOTER */
+    footer{background:var(--ink);color:var(--paper);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
+    .f-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.1em;}
+    .f-logo span{color:var(--red);}
+    .f-links{display:flex;gap:2rem;}
+    .f-links a{text-decoration:none;color:#aaa;font-size:.82rem;transition:color .15s;}
+    .f-links a:hover{color:var(--paper);}
+
+    @keyframes scrollX{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+    @media(max-width:1024px){.hero-right{grid-template-columns:1fr 1fr;}.page-hero{grid-template-columns:1fr;}.hero-right{border-top:2px solid var(--ink);}}
+    @media(max-width:768px){
+      nav{padding:0 1rem;}
+      .nav-links{display:none;}
+      .contact-main{grid-template-columns:1fr;}
+      .form-side{border-right:none;border-bottom:2px solid var(--ink);padding:2.5rem 1.5rem;}
+      .info-side{padding:2.5rem 1.5rem;}
+      .f-row{grid-template-columns:1fr;}
+      .hero-text{padding:2.5rem 1.5rem;}
+      .hero-right{grid-template-columns:1fr 1fr;}
+      .map-head,.faq-head{padding:1.2rem 1.5rem;}
+      .faq-wrap{padding:0 1.5rem;}
+      footer{flex-direction:column;gap:1rem;padding:1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">STR<span>K</span>R</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="product.html">Shop</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <a href="product.html" class="shop-btn">Shop Now</a>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-text">
+    <div class="hero-label">We're here to help</div>
+    <h1 class="hero-h1">HIT<br>US <span>UP</span></h1>
+    <p class="hero-sub">Questions about your order, a product, or just want to talk gear? Our crew responds fast — usually within a few hours.</p>
+  </div>
+  <div class="hero-right">
+    <div class="contact-stat" style="border-bottom:2px solid var(--border)">
+      <div class="cs-ico">⚡</div>
+      <div class="cs-label">Response Time</div>
+      <div class="cs-val">Under 4 Hours</div>
+      <div class="cs-sub">Mon – Sat, 9am–7pm IST</div>
+    </div>
+    <div class="contact-stat" style="border-right:none;border-bottom:2px solid var(--border)">
+      <div class="cs-ico">📦</div>
+      <div class="cs-label">Orders & Shipping</div>
+      <div class="cs-val">Track in Real-Time</div>
+      <div class="cs-sub">Updates via SMS & email</div>
+    </div>
+    <div class="contact-stat">
+      <div class="cs-ico">↩️</div>
+      <div class="cs-label">Returns</div>
+      <div class="cs-val">30-Day Policy</div>
+      <div class="cs-sub">No questions asked</div>
+    </div>
+    <div class="contact-stat" style="border-right:none">
+      <div class="cs-ico">🏆</div>
+      <div class="cs-label">Satisfaction</div>
+      <div class="cs-val">4.9 / 5 Stars</div>
+      <div class="cs-sub">From 12,000+ customers</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT MAIN -->
+<div class="contact-main">
+  <!-- FORM -->
+  <div class="form-side">
+    <div class="form-head">
+      <div class="form-title">Send a<br><span>Message</span></div>
+      <p class="form-desc">Fill this out and we'll get back to you ASAP — typically within a few hours on weekdays.</p>
+    </div>
+
+    <div id="contactForm">
+      <div class="f-row">
+        <div class="f-group">
+          <label class="f-label" for="fName">First Name *</label>
+          <input class="f-ctrl" type="text" id="fName" placeholder="Ravi"/>
+          <div class="err-msg" id="fNameErr">Required</div>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="lName">Last Name *</label>
+          <input class="f-ctrl" type="text" id="lName" placeholder="Kumar"/>
+          <div class="err-msg" id="lNameErr">Required</div>
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label" for="email">Email *</label>
+        <input class="f-ctrl" type="email" id="email" placeholder="ravi@example.com"/>
+        <div class="err-msg" id="emailErr">Please enter a valid email</div>
+      </div>
+      <div class="f-group">
+        <label class="f-label" for="phone">Phone <span style="font-size:.6rem;opacity:.6">(optional)</span></label>
+        <input class="f-ctrl" type="tel" id="phone" placeholder="+91 99999 99999"/>
+      </div>
+      <div class="f-group">
+        <label class="f-label" for="subject">Subject *</label>
+        <select class="f-ctrl" id="subject">
+          <option value="">Select a topic...</option>
+          <option value="order">Order Inquiry</option>
+          <option value="product">Product Question</option>
+          <option value="return">Return / Exchange</option>
+          <option value="shipping">Shipping & Delivery</option>
+          <option value="wholesale">Wholesale / Bulk</option>
+          <option value="press">Press & Collabs</option>
+          <option value="other">Other</option>
+        </select>
+        <div class="err-msg" id="subjectErr">Please select a subject</div>
+      </div>
+      <div class="f-group">
+        <label class="f-label" for="orderNum">Order Number <span style="font-size:.6rem;opacity:.6">(if applicable)</span></label>
+        <input class="f-ctrl" type="text" id="orderNum" placeholder="STRKR-2025-XXXXX"/>
+      </div>
+      <div class="f-group">
+        <label class="f-label" for="msg">Message *</label>
+        <textarea class="f-ctrl" id="msg" maxlength="1000" placeholder="Tell us what's up..." oninput="countChars()"></textarea>
+        <div class="char-count"><span id="charCount">0</span>/1000</div>
+        <div class="err-msg" id="msgErr">Please write a message (min 10 chars)</div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="newsletter"/>
+        <label for="newsletter">Add me to the STRKR drop list — new releases, exclusive sales. <a href="#">Opt out anytime.</a></label>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="agree"/>
+        <label for="agree">I agree to the <a href="#">Privacy Policy</a> and consent to being contacted. *</label>
+      </div>
+      <div class="err-msg" id="agreeErr" style="margin-bottom:.5rem">You must agree to continue</div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">Send Message →</button>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <span class="success-ico">✉️</span>
+      <div class="success-title">Message Sent!</div>
+      <p class="success-txt">We got your message and will respond within 4 hours on weekdays. Check your inbox shortly.</p>
+      <button class="reset-btn" onclick="resetForm()">Send Another</button>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-side">
+    <div class="info-title">Get in<br><span>Touch</span></div>
+
+    <div class="c-detail">
+      <div class="c-ico">✉️</div>
+      <div class="c-body">
+        <div class="c-lbl">Email</div>
+        <div class="c-val">hello@strkr.in</div>
+        <div class="c-sub">support@strkr.in (orders)</div>
+      </div>
+    </div>
+    <div class="c-detail">
+      <div class="c-ico">📞</div>
+      <div class="c-body">
+        <div class="c-lbl">Phone</div>
+        <div class="c-val">+91 40 6789 0000</div>
+        <div class="c-sub">Mon–Sat, 9am–7pm IST</div>
+      </div>
+    </div>
+    <div class="c-detail">
+      <div class="c-ico">💬</div>
+      <div class="c-body">
+        <div class="c-lbl">WhatsApp</div>
+        <div class="c-val">+91 98765 00000</div>
+        <div class="c-sub">Quick questions, Mon–Fri</div>
+      </div>
+    </div>
+    <div class="c-detail">
+      <div class="c-ico">📍</div>
+      <div class="c-body">
+        <div class="c-lbl">Store</div>
+        <div class="c-val">HITEC City, Hyderabad</div>
+        <div class="c-sub">Building 9A, Cyberabad — 500081</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="hours-title">Store Hours</div>
+    <div class="h-row" id="hMon"><span>Monday – Friday</span><span>10:00am – 8:00pm</span></div>
+    <div class="h-row" id="hSat"><span>Saturday</span><span>11:00am – 6:00pm</span></div>
+    <div class="h-row" id="hSun"><span>Sunday</span><span>Closed</span></div>
+
+    <div class="divider"></div>
+
+    <div class="hours-title">Follow STRKR</div>
+    <div class="social-row">
+      <a href="#" class="soc-link">📸 Instagram</a>
+      <a href="#" class="soc-link">🐦 Twitter</a>
+      <a href="#" class="soc-link">▶️ YouTube</a>
+      <a href="#" class="soc-link">🎵 TikTok</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="map-head">
+    <span class="map-title">Find Our <span>Store</span></span>
+    <a href="https://maps.google.com/?q=HITEC+City+Hyderabad" target="_blank" style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--ink);">Get Directions →</a>
+  </div>
+  <div class="map-body">
+    <div class="map-pin">📍</div>
+    <div class="map-name">STRKR — HITEC City</div>
+    <div class="map-addr">Building 9A, Cyberabad, Hyderabad — 500081</div>
+    <a href="https://maps.google.com/?q=HITEC+City+Hyderabad" target="_blank" class="map-dir">Open in Maps →</a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="faq-head">
+    <div class="faq-title">Frequently Asked <span>Questions</span></div>
+  </div>
+  <div class="faq-wrap" style="padding-top:0;" id="faqList"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">STR<span>K</span>R</div>
+  <div class="f-links">
+    <a href="index.html">Home</a>
+    <a href="product.html">Shop</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+/* TICKER */
+function buildTicker(){
+  const items=['🔥 New Arrivals Weekly ✦','📦 Free Shipping Over ₹999 ✦','↩️ 30-Day Easy Returns ✦','⚡ Flash Sale — Code: STRKR30 ✦'];
+  document.getElementById('ticker').innerHTML=[...items,...items].map(i=>`<span style="margin-right:3rem">${i}</span>`).join('');
+}
+
+/* HOURS — highlight today */
+const DAY=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const today=new Date().getDay();
+if(today>=1&&today<=5){document.getElementById('hMon').classList.add('today');document.querySelector('#hMon span:first-child').textContent=DAY[today]+' (Today)';}
+else if(today===6){document.getElementById('hSat').classList.add('today');document.querySelector('#hSat span:first-child').textContent='Saturday (Today)';}
+else{document.getElementById('hSun').classList.add('today');document.querySelector('#hSun span:first-child').textContent='Sunday (Today)';}
+
+/* FAQ */
+const FAQS=[
+  {q:'How long does delivery take?',a:'Standard delivery across India takes 3–5 business days. Express (1–2 days) is available for most pin codes. International orders ship in 7–14 days via DHL.'},
+  {q:'What is your returns policy?',a:'We offer hassle-free 30-day returns on all full-price items. Items must be unused, in original packaging, with tags attached. Sale items are final sale.'},
+  {q:'Do you ship internationally?',a:'Yes — we ship to 35+ countries. Rates and times vary by destination. All orders are tracked end-to-end.'},
+  {q:'How can I track my order?',a:'You\'ll receive a confirmation email with a tracking link as soon as your order ships. You can also WhatsApp us your order number for a quick update.'},
+  {q:'Are the products authentic?',a:'100%. We source directly from verified manufacturers. Everything on STRKR is genuine — no dupes, no knockoffs.'},
+  {q:'Do you offer bulk / wholesale pricing?',a:'Yes! If you\'re looking to purchase 20+ units for retail or corporate gifting, hit us up at wholesale@strkr.in for a custom quote.'},
+];
+document.getElementById('faqList').innerHTML=FAQS.map((f,i)=>`
+  <div class="faq-item" id="faq${i}">
+    <div class="faq-q" onclick="toggleFaq(${i})">
+      <span>${f.q}</span><span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-a">${f.a}</div>
+  </div>`).join('');
+function toggleFaq(i){document.getElementById('faq'+i).classList.toggle('open');}
+
+/* FORM */
+function countChars(){document.getElementById('charCount').textContent=document.getElementById('msg').value.length;}
+function validate(){
+  let ok=true;
+  const checks=[
+    {id:'fName',err:'fNameErr',fn:v=>v.trim().length>=2},
+    {id:'lName',err:'lNameErr',fn:v=>v.trim().length>=2},
+    {id:'email',err:'emailErr',fn:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
+    {id:'subject',err:'subjectErr',fn:v=>v!==''},
+    {id:'msg',err:'msgErr',fn:v=>v.trim().length>=10},
+  ];
+  checks.forEach(c=>{
+    const el=document.getElementById(c.id),err=document.getElementById(c.err);
+    if(!c.fn(el.value)){el.classList.add('err');err.classList.add('show');ok=false;}
+    else{el.classList.remove('err');err.classList.remove('show');}
+  });
+  const ag=document.getElementById('agree'),agErr=document.getElementById('agreeErr');
+  if(!ag.checked){agErr.classList.add('show');ok=false;}
+  else agErr.classList.remove('show');
+  return ok;
+}
+function submitForm(){
+  if(!validate())return;
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Sending...';
+  setTimeout(()=>{
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('formSuccess').classList.add('show');
+    showToast('Message sent! ✓');
+  },1500);
+}
+function resetForm(){
+  document.getElementById('contactForm').style.display='block';
+  document.getElementById('formSuccess').classList.remove('show');
+  ['fName','lName','email','phone','msg','orderNum'].forEach(id=>{
+    const el=document.getElementById(id);el.value='';el.classList.remove('err');
+  });
+  document.getElementById('subject').value='';
+  document.getElementById('agree').checked=false;
+  document.getElementById('newsletter').checked=false;
+  document.getElementById('charCount').textContent='0';
+  document.getElementById('submitBtn').disabled=false;
+  document.getElementById('submitBtn').textContent='Send Message →';
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+buildTicker();
+</script>
+</body>
+</html>
